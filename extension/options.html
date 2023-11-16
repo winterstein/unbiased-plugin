@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
+	<style>
+		html {
+			background-image: url('img/sky.png');
+			background-size: cover;
+			background-repeat: no-repeat;
+			height: 100%;
+		}
+
+		.center {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+
+		.center h1 {
+			text-align: center;
+			color: #ffffff;
+			font-family: 'Montserrat', sans-serif;
+			font-weight: 700;
+			font-size: 250%;
+		}
+
+		#box {
+			width: 500px;
+			margin: 10px;
+			padding: 10px;
+			background: #ffffff;
+			;
+			border-radius: 25px;
+		}
+
+		#box label {
+			font-family: 'Montserrat', sans-serif;
+			font-size: 150%;
+			font-weight: 300;
+		}
+
+		/* BS button */
+		.btn {
+			display: inline-block;
+			font-weight: 400;
+			color: #212529;
+			text-align: center;
+			vertical-align: middle;
+			cursor: pointer;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			background-color: transparent;
+			border: 1px solid transparent;
+			padding: .375rem .75rem;
+			font-size: 1rem;
+			line-height: 1.5;
+			border-radius: .25rem;
+			transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+		}
+		.btn-primary {
+			color: #fff;
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+	</style>
+</head>
+
+<body id="body">
+	<div id="logo">
+		<img src="img/cookiemanagerlogo.png" style="width:200px;height:150px;">
+	</div>
+	<div class="center">
+		<h1>Manage Quality Settings</h1>
+		<div id="box">
+
+			<label>OpenAI API key</label>
+			<input id="openai_api_key">
+			<br>
+
+			<label>GPT Model</label>
+			<input id="gpt_model">
+			<br>
+
+			<button class="btn btn-primary" id="save">Save</button>
+			<div id="status"></div><br>
+
+			<h3>Ignored Sites</h3>
+			<p>
+				Don't run on these sites. 
+			</p>
+			<ul id="whitelist">
+			</ul>
+			<label>Add a site to the ignore-list</label>
+			<input id="addToWhitelist" />
+		</div>
+	</div>
+</body>
+<script src="build/js/options-bundle-debug.js"></script>
+
+</html>

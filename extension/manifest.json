@@ -1,0 +1,40 @@
+{
+	"manifest_version": 3,
+ 
+	"name": "Quality - alpha",
+	"description": "Check for bias",
+	"version": "0.1.0",
+
+	"icons": {
+		"64": "img/logo.64.png"
+	},
+ 
+	"action": {
+		"default_icon": "img/logo.64.png",
+		"default_popup": "popup.html"
+	},
+
+	"permissions": [
+	  "activeTab",
+	  "storage",
+	  "http://*/*",
+      "https://*/*"
+	],
+
+	"options_ui": {
+		"page": "options.html",
+		"open_in_tab": true
+	},
+
+	"content_scripts": [		
+		{			
+			"matches": ["<all_urls>"],
+			"run_at": "document_start",
+			"exclude_matches": ["*://as.good-loop.com/*"],
+			"js": ["build/js/contentscript-bundle-debug.js"],
+			"css": [
+                "prompter.css"
+            ]
+		}
+	]
+ }
