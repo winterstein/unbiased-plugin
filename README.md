@@ -2,14 +2,21 @@
 
 A chrome browser extension for detecting bias and manipulation in web content.
 
-## Installation
+## Installation (Chrome)
 
-1. Clone this repository
-	git clone 
-2. Go to `chrome://extensions/`
-3. Enable developer mode
+1. Clone this repository   
+	`git clone https://github.com/winterstein/unbiased-plugin.git`
+2. Go to `chrome://extensions/` in your browser.
+3. Enable developer mode.
 4. Click "Load unpacked"
-5. Select the cloned repository folder
+5. Select the cloned repository folder.
+
+The core functions should work automatically.
+
+(optional) Pin the extension in the toolbar, for access to extra functions.
+
+The prompt and other details can be edited in the extension options page.
+Access this via the extension toolbar button, or via the chrome "Manage Extensions" settings page.
 
 ### For Development
 
@@ -42,5 +49,7 @@ https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension
 
 ## License Notes
+
+Based on an idea by Seb Mhatre.
 
 This plugin includes code (c) Good-Loop from the Cookie-Cutter browser plugin, used under the MIT License.
