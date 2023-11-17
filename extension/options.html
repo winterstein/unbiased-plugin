@@ -3,19 +3,13 @@
 
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,700" rel="stylesheet">
+	<link href="bootstrap.min.css" rel="stylesheet" >
 	<style>
-		html {
+		body {
 			background-image: url('img/sky.png');
 			background-size: cover;
 			background-repeat: no-repeat;
 			height: 100%;
-		}
-
-		.center {
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
 		}
 
 		.center h1 {
@@ -27,7 +21,7 @@
 		}
 
 		#box {
-			width: 500px;
+			width: 700px;
 			margin: 10px;
 			padding: 10px;
 			background: #ffffff;
@@ -41,53 +35,28 @@
 			font-weight: 300;
 		}
 
-		/* BS button */
-		.btn {
-			display: inline-block;
-			font-weight: 400;
-			color: #212529;
-			text-align: center;
-			vertical-align: middle;
-			cursor: pointer;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-			background-color: transparent;
-			border: 1px solid transparent;
-			padding: .375rem .75rem;
-			font-size: 1rem;
-			line-height: 1.5;
-			border-radius: .25rem;
-			transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-		}
-		.btn-primary {
-			color: #fff;
-			background-color: #007bff;
-			border-color: #007bff;
-		}
-
 	</style>
 </head>
 
 <body id="body">
 	<div id="logo">
-		<img src="img/cookiemanagerlogo.png" style="width:200px;height:150px;">
+		<img src="img/logo.64.png" style="width:64px;height:64px;">
 	</div>
-	<div class="center">
-		<h1>Manage Quality Settings</h1>
-		<div id="box">
+	<div class="container">
+		<h1 class="text-light mx-auto text-center">Unbiased Plugin Options</h1>
+		<div id="box" class="mx-auto">
 
 			<label>OpenAI API key</label>
-			<input id="openai_api_key">
+			<input id="openai_api_key" class="form-control">
+			<a href="https://beta.openai.com/account/api-keys" target="_new">Get API key from OpenAI</a>
 			<br>
 
 			<label>GPT Model</label>
-			<input id="gpt_model">
+			<input id="gpt_model" class="form-control">
 			<br>
 
 			<label>Prompt</label>
-			<textarea id="prompt"></textarea>
+			<textarea id="prompt" rows="12" class="form-control"></textarea>
 			<br>
 
 			<button class="btn btn-primary" id="save">Save</button>
@@ -100,8 +69,9 @@
 			<ul id="whitelist">
 			</ul>
 			<label>Add a site to the ignore-list</label>
-			<input id="addToWhitelist" />
+			<input id="addToWhitelist" class="form-control" />
 		</div>
+	</center>
 	</div>
 </body>
 <script src="build/js/options-bundle-debug.js"></script>

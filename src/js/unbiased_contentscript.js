@@ -6,34 +6,41 @@ import $ from 'jquery';
 // import _ from 'lodash';
 const Cookies = require('js-cookie');
 
-const LOGTAG = "Q-extension";
-console.log(LOGTAG, "Hello from Quality :)", window, document);
-// console.log(LOGTAG, "CMP?", kvstore.get("cmp"));
+const LOGTAG = "UQ-extension";
+console.log(LOGTAG, "Hello from Unbiased Quality :)", window, document);
 
-// // userlist is domain: {off:true} to whitelist domains
-// // What are vendorlist and allowlist??
-// chrome.storage.local.get(['vendorlist', 'allowlist', 'userlist'], function(result) {
-// 	console.log(LOGTAG, "CMP storage local load: ", result);
-// 	const domain = getDomain();
-// 	if (result.userlist[domain] || result.allowlist[domain] || !kvstore.get("cmp")) {
-// 		console.log(LOGTAG, "Website allowed! Q turned off.");
-// 		return;
-// 	}
-// }); 
-const doAnalyse = async () => {
-	let ignorelist = await kvstore.get("ignorelist");
-	let domain = getDomain()
-	if (ignorelist && ignorelist.includes(domain)) {
-		console.log(LOGTAG, "skip " + domain);
-		return;
+function getArticleText() {
+	// TODO support custom text finding for special sites (e.g. Facebook)
+	// TODO support multiple posts (e.g. reddit)
+	let articleText = $("article").text() 
+		|| window.document.textContent
+		|| window.document.body?.innerText
+		|| $(window.document).text();
+	console.log(LOGTAG, "articleText", articleText, window.document.textContent);
+	return articleText;
+}
+
+export const doAnalyse = async (options={}) => {
+	let domain = getDomain();
+	if ( ! options.force) {
+		let ignorelist = await kvstore.get("ignorelist");
+		if ( ! ignorelist) {
+			ignorelist = initIgnorelist();
+		}		
+		if (ignorelist.includes(domain)) {
+			console.log(LOGTAG, "skip " + domain);
+			return;
+		}
+		if ( ! window.location.protocol.startsWith("http") || ! domain.includes(".")) {
+			console.log(LOGTAG, "skip not-a-website " + domain+" "+window.location);
+			return;
+		}
 	}
+	console.log(LOGTAG, "Run for domain " + domain);
 	// 1. Get page text
 	console.log(LOGTAG, window, window.document);
 	// BBC
-	let articleText = $("article").text() || window.document.textContent
-		|| window.document.body.innerText
-		|| $(window.document).text();
-	console.log(LOGTAG, "articleText", articleText, window.document.textContent);
+	let articleText = getArticleText();
 
 	if (!articleText) {
 		console.log("No articleText?");
@@ -53,6 +60,7 @@ const doAnalyse = async () => {
 		content =
 			`You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. 
 When sent an article or web-page you respond with a 'Media Analyst Response' which is:
+Summary: a very short sentence summarising the article
 Bias Level: objective or slight bias or strong bias or N/A
 Biased For: keywords of subjects that the article unfairly promotes
 Biased Against: keywords of subjects that the article unfairly attacks
@@ -72,7 +80,6 @@ Political leaning: left-wing or right-wing or neutral`;
 		assert(articleText);
 		articleText = articleText.replace(/["`]/g, "'");
 		articleText = articleText.substring(0, 1500); // cap length
-		// articleText = "Putin's evil attacks are a threat to democracy. The former KGB spy-master is a scorpion.";
 		console.log(LOGTAG, "doChat", articleText);
 		const response = await fetch('https://api.openai.com/v1/chat/completions', {
 			method: 'POST',
@@ -138,17 +145,19 @@ Political leaning: left-wing or right-wing or neutral`;
 		let p = document.createElement("p");
 		p.innerHTML = tellMe;
 		infoPop.appendChild(p);
-		// link to options
-		let a = document.createElement("a");
-		a.innerHTML = "options";
-		a.onclick = e => chrome.runtime.openOptionsPage();
-		infoPop.appendChild(a);
+		// NB: link to potions doesnt work in content-script -- would need to use messaging
 		$("body").append(infoPop);
 	});
 } // ./doAnalyse
+// activate after page load
+setTimeout(doAnalyse, 500);
+// allow for manual activation
+chrome.runtime.onMessage.addListener(msg => {
+	console.log(LOGTAG, "msg",msg);
+	if (msg==="doAnalyse") doAnalyse({force:true});
+});
 
-setTimeout(doAnalyse, 1000);
-
+chrome.tabs.sendMessage(tab[0].id, "doAnalyse");
 
 function showSettingsPage() {
 	console.log(LOGTAG, "showSettingsPage");
@@ -222,3 +231,10 @@ setTimeout(async () => {
 	let apiKey = await kvstore.get("openai_api_key");
 	if (!apiKey) showSettingsPage();
 }, 100);
+
+function initIgnorelist() {
+	// sites not to auto run on
+	let ignorelist = "google.com outlook.com yahoo.com yahoo.co.uk bing.com openai.com facebook.com twitter.com x.com".split(" ");
+	kvstore.set("ignorelist",ignorelist);
+	return ignorelist;
+}

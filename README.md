@@ -41,3 +41,6 @@ Cross-browser - see:
 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions
 https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension
 
+## License Notes
+
+This plugin includes code (c) Good-Loop from the Cookie-Cutter browser plugin, used under the MIT License.
