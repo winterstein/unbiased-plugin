@@ -234,7 +234,7 @@ setTimeout(async () => {
 
 function initIgnorelist() {
 	// sites not to auto run on
-	let ignorelist = "google.com outlook.com yahoo.com yahoo.co.uk bing.com openai.com facebook.com twitter.com x.com".split(" ");
+	let ignorelist = "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com".split(" ");
 	kvstore.set("ignorelist",ignorelist);
 	return ignorelist;
 }
