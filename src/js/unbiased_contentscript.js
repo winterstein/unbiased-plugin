@@ -208,8 +208,8 @@ function appendChildren(parent, children) {
 	children.forEach(child => parent.appendChild(child));
 }
 
-setTimeout(() => {
+setTimeout(async () => {
 	console.log(LOGTAG, "setup?");
-	let apiKey = kvstore.get("openai_api_key");
+	let apiKey = await kvstore.get("openai_api_key");
 	if (!apiKey) showSettingsPage();
 }, 100);
