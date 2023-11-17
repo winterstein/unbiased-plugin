@@ -29,7 +29,7 @@ CONFIG_FILE = JSON.stringify(CONFIG_FILE);
 
 const baseConfig = {
 	// NB When editing keep the "our code" entry point last in this list - makeConfig override depends on this position.
-	entry: ['@babel/polyfill', './src/js/contentscript.js'],
+	entry: ['@babel/polyfill', './src/js/unbiased_contentscript.js'],
 	output: {
 		path: path.resolve(__dirname, './' + webDir + '/build/'), // NB: this should include js and css outputs
 		// filename: is left undefined and filled in by makeConfig
@@ -122,12 +122,12 @@ const makeConfig = ({ filename, mode, entry }) => {
 };
 
 const configs = [
-	makeConfig({filename: 'js/background-bundle-debug.js', mode: 'development', entry:'./src/js/background.js'}),
-	makeConfig({filename: 'js/contentscript-bundle-debug.js', mode: 'development' }),
-	makeConfig({filename: 'js/inject-bundle-debug.js', mode: 'development', entry:'./src/js/inject.js'}),
-	makeConfig({filename: 'js/install-bundle-debug.js', mode: 'development', entry:'./src/js/install.js'}),
+	// makeConfig({filename: 'js/background-bundle-debug.js', mode: 'development', entry:'./src/js/background.js'}),
+	makeConfig({filename: 'js/unbiased_contentscript-bundle-debug.js', mode: 'development' }),
+	// makeConfig({filename: 'js/inject-bundle-debug.js', mode: 'development', entry:'./src/js/inject.js'}),
+	// makeConfig({filename: 'js/install-bundle-debug.js', mode: 'development', entry:'./src/js/install.js'}),
 	makeConfig({filename: 'js/options-bundle-debug.js', mode: 'development', entry:'./src/js/options.js'}),
-	makeConfig({filename: 'js/popup-bundle-debug.js', mode: 'development', entry:'./src/js/popup.js'}),
+	// makeConfig({filename: 'js/popup-bundle-debug.js', mode: 'development', entry:'./src/js/popup.js'}),
 ];
 // Default behaviour: Create a production config (with mode & output filename amended) for each dev config.
 // Allow debug-only compilation for faster iteration in dev

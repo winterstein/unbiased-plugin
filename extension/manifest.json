@@ -31,7 +31,7 @@
 			"matches": ["<all_urls>"],
 			"run_at": "document_start",
 			"exclude_matches": ["*://as.good-loop.com/*"],
-			"js": ["build/js/contentscript-bundle-debug.js"],
+			"js": ["build/js/unbiased_contentscript-bundle-debug.js"],
 			"css": [
                 "prompter.css"
             ]

@@ -48,6 +48,21 @@ const doAnalyse = async () => {
 	}
 	let model = await kvstore.get("gpt_model");
 	if (!model) model = "gpt-4"; //"gpt-4-1106-preview"; // "text-davinci-003";
+	let content = await kvstore.get("prompt");
+	if ( ! content) {
+		content = 
+`You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. 
+When sent an article or web-page you respond with a 'Media Analyst Response' which is:
+Bias Level: objective or slight bias or strong bias or N/A
+Biased For: keywords of subjects that the article unfairly promotes
+Biased Against: keywords of subjects that the article unfairly attacks
+Bias Summary: a short sentence summarising bias in the article
+Manipulation Warnings: upto 3 sentences where a rhetorical device or logical fallacy is used to manipulate the reader.			
+Evidence Given for Key Points: yes or partly or no
+Distinction between fact and opinion: clear or unclear
+Political leaning: left-wing or right-wing or neutral`;
+		kvstore.set("prompt", content);
+	}
 	/**
 	 * 
 	 * @param {{role, content}[]} messages 
@@ -69,16 +84,8 @@ const doAnalyse = async () => {
 				model,
 				messages: [
 					{
-						role: "system", content: `You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. 
-			When sent an article or web-page you respond with a 'Media Analyst Response' which is:
-			Bias Level: objective or slight bias or strong bias or N/A
-			Biased For: keywords of subjects that the article unfairly promotes
-			Biased Against: keywords of subjects that the article unfairly attacks
-			Bias Summary: a short sentence summarising bias in the article
-			Manipulation Warnings: upto 3 sentences where a rhetorical device or logical fallacy is used to manipulate the reader.			
-			Evidence Given for Key Points: yes or partly or no
-			Distinction between fact and opinion: clear or unclear
-			Political leaning: left-wing or right-wing or neutral`},
+						role: "system", 
+						content},
 					{
 						role: "user", content: `Article/web-page text: ${articleText}
 
@@ -135,7 +142,7 @@ setTimeout(doAnalyse, 1000);
 
 
 function showSettingsPage() {
-	console.log("showSettingsPage");
+	console.log(LOGTAG, "showSettingsPage");
 	if (document.getElementsByClassName("gpt3_prompter___settings-popup").length > 0) {
 		document.getElementsByClassName("gpt3_prompter___settings-popup")[0].focus();
 		return;
@@ -202,7 +209,7 @@ function appendChildren(parent, children) {
 }
 
 setTimeout(() => {
-	console.log("setup?");
+	console.log(LOGTAG, "setup?");
 	let apiKey = kvstore.get("openai_api_key");
 	if (!apiKey) showSettingsPage();
 }, 100);
