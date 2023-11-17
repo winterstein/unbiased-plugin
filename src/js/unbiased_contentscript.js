@@ -49,9 +49,9 @@ const doAnalyse = async () => {
 	let model = await kvstore.get("gpt_model");
 	if (!model) model = "gpt-4"; //"gpt-4-1106-preview"; // "text-davinci-003";
 	let content = await kvstore.get("prompt");
-	if ( ! content) {
-		content = 
-`You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. 
+	if (!content) {
+		content =
+			`You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. 
 When sent an article or web-page you respond with a 'Media Analyst Response' which is:
 Bias Level: objective or slight bias or strong bias or N/A
 Biased For: keywords of subjects that the article unfairly promotes
@@ -84,8 +84,9 @@ Political leaning: left-wing or right-wing or neutral`;
 				model,
 				messages: [
 					{
-						role: "system", 
-						content},
+						role: "system",
+						content
+					},
 					{
 						role: "user", content: `Article/web-page text: ${articleText}
 
@@ -107,34 +108,42 @@ Political leaning: left-wing or right-wing or neutral`;
 	let prom = doChat(articleText);
 
 	// 3. Modify page to show results
-	prom.then(r => {
-		let rTextPromise = r.text();
-		console.log("r", r, rTextPromise);
-		rTextPromise.then(rText => {
-			console.log("rText", rText);
-			let tellMe = JSON.parse(rText).choices[0].message.content;
+	prom.then(async r => {
+		let rText = await r.text();
+		console.log("rText", rText);
+		let jobj = JSON.parse(rText);
+		let tellMe;
+		if (jobj.error) {
+			tellMe = "" + jobj.error;
+		} else {
+			tellMe = jobj.choices[0].message.content;
 			if (tellMe.includes("Bias Level: N/A")) {
 				console.log(LOGTAG, "N/A", tellMe);
 				return;
 			}
-			tellMe = tellMe.replace(/["`]/g, "'");
-			tellMe = tellMe.replace(/\n/g, "<br/>\n");
-			// TODO a close button
-			let infoPop = document.createElement("div");
-			infoPop.setAttribute("class", "_quality_infopop");
-			let closeButton = document.createElement("div");
-			closeButton.innerHTML = "x";
-			closeButton.setAttribute("class", "_quality_closebutton");
-			closeButton.onclick = e => {
-				console.log("close");
-				infoPop.setAttribute("style", "display:none");
-			};
-			infoPop.appendChild(closeButton);
-			let p = document.createElement("p");
-			p.innerHTML = tellMe;
-			infoPop.appendChild(p);
-			$("body").append(infoPop);
-		});
+		}
+		tellMe = tellMe.replace(/["`]/g, "'");
+		tellMe = tellMe.replace(/\n/g, "<br/>\n");
+		// TODO a close button
+		let infoPop = document.createElement("div");
+		infoPop.setAttribute("class", "_quality_infopop");
+		let closeButton = document.createElement("div");
+		closeButton.innerHTML = "x";
+		closeButton.setAttribute("class", "_quality_closebutton");
+		closeButton.onclick = e => {
+			console.log("close");
+			infoPop.setAttribute("style", "display:none");
+		};
+		infoPop.appendChild(closeButton);
+		let p = document.createElement("p");
+		p.innerHTML = tellMe;
+		infoPop.appendChild(p);
+		// link to options
+		let a = document.createElement("a");
+		a.innerHTML = "options";
+		a.onclick = e => chrome.runtime.openOptionsPage();
+		infoPop.appendChild(a);
+		$("body").append(infoPop);
 	});
 } // ./doAnalyse
 
