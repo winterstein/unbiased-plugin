@@ -43,4 +43,6 @@ https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_c
 
 ## License Notes
 
+Based on an idea by Seb Mhatre.
+
 This plugin includes code (c) Good-Loop from the Cookie-Cutter browser plugin, used under the MIT License.
