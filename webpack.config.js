@@ -127,7 +127,7 @@ const configs = [
 	// makeConfig({filename: 'js/inject-bundle-debug.js', mode: 'development', entry:'./src/js/inject.js'}),
 	// makeConfig({filename: 'js/install-bundle-debug.js', mode: 'development', entry:'./src/js/install.js'}),
 	makeConfig({filename: 'js/options-bundle-debug.js', mode: 'development', entry:'./src/js/options.js'}),
-	// makeConfig({filename: 'js/popup-bundle-debug.js', mode: 'development', entry:'./src/js/popup.js'}),
+	makeConfig({filename: 'js/popup-bundle-debug.js', mode: 'development', entry:'./src/js/popup.js'}),
 ];
 // Default behaviour: Create a production config (with mode & output filename amended) for each dev config.
 // Allow debug-only compilation for faster iteration in dev
