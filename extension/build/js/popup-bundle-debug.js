@@ -31292,11 +31292,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var webextension_polyfill_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! webextension-polyfill-ts */ "./node_modules/webextension-polyfill-ts/lib/index.js");
 /* harmony import */ var _base_utils_miscutils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base/utils/miscutils */ "./src/js/base/utils/miscutils.js");
 /* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./kvstore */ "./src/js/kvstore.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 
 
 
 
 
+
+var LOGTAG = "UQ-popup";
 if (!chrome) {
   // ??needed for Firefox or Edge??
   console.log("shim for non-chrome browser");
@@ -31344,7 +31347,7 @@ function save_preference(e) {
               domain = (0,_base_utils_miscutils__WEBPACK_IMPORTED_MODULE_3__.getDomain)(temp.hostname);
               allowed = !document.getElementById('toggler').checked;
               _context2.next = 5;
-              return _kvstore__WEBPACK_IMPORTED_MODULE_4__["default"].get("ignorelist");
+              return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist");
             case 5:
               ignorelist = _context2.sent;
               if (!allowed) {
@@ -31354,7 +31357,7 @@ function save_preference(e) {
               } else {
                 ignorelist.push(domain);
               }
-              _kvstore__WEBPACK_IMPORTED_MODULE_4__["default"].set("ignorelist", ignorelist);
+              Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist", ignorelist);
             case 8:
             case "end":
               return _context2.stop();
@@ -31383,7 +31386,7 @@ function load_preference() {
               domain = (0,_base_utils_miscutils__WEBPACK_IMPORTED_MODULE_3__.getDomain)(temp.hostname);
               console.log(domain);
               _context3.next = 5;
-              return _kvstore__WEBPACK_IMPORTED_MODULE_4__["default"].get("ignorelist");
+              return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist");
             case 5:
               ignorelist = _context3.sent;
               if (ignorelist.filter(function (d) {
@@ -31408,6 +31411,7 @@ function load_preference() {
 }
 window.onload = load_preference();
 document.getElementById('options_link').addEventListener('click', function (e) {
+  console.log(LOGTAG, "options_link click");
   chrome.runtime.openOptionsPage();
 });
 })();

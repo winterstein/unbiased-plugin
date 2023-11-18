@@ -5,8 +5,12 @@
 	border: dotted 1px #ccc; 
 	background:rgba(255,255,255,0.8);
 	padding: 0.2rem;
+	overflow-y: auto;
 }
+
 ._quality_closebutton {
+	font-size: large;
+	padding: 0.1rem;
 	position: absolute;
 	right:0.5rem;
 	top:0.5rem;

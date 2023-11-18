@@ -2,6 +2,9 @@
 import { browser } from "webextension-polyfill-ts";
 import { getDomain } from "./base/utils/miscutils";
 import kvstore from "./kvstore";
+import {getOptionData, setOptionData} from "./data";
+
+const LOGTAG = "UQ-popup";
 
 if ( ! chrome) { // ??needed for Firefox or Edge??
 	console.log("shim for non-chrome browser");
@@ -24,13 +27,13 @@ function save_preference(e) {
         let temp = new URL(tab[0].url);
         let domain = getDomain(temp.hostname);
         const allowed = !(document.getElementById('toggler').checked);
-		let ignorelist = await kvstore.get("ignorelist");
+		let ignorelist = await getOptionData("ignorelist");
 		if ( ! allowed) {
 			ignorelist = ignorelist.filter(d => ! domain.endsWith(d));
 		} else {
 			ignorelist.push(domain);
 		}		
-		kvstore.set("ignorelist",ignorelist);
+		setOptionData("ignorelist",ignorelist);
     });
 }
 document.getElementById('toggler').addEventListener('change', save_preference);
@@ -40,7 +43,7 @@ function load_preference() {
         let temp = new URL(tab[0].url);
         let domain = getDomain(temp.hostname);
         console.log(domain);
-		let ignorelist = await kvstore.get("ignorelist");
+		let ignorelist = await getOptionData("ignorelist");
 		if (ignorelist.filter(d => domain.endsWith(d)).length) {
 			document.getElementById('toggler').checked = false;
 		} else {
@@ -54,5 +57,6 @@ window.onload = load_preference();
 
 
 document.getElementById('options_link').addEventListener('click', e => {
+	console.log(LOGTAG, "options_link click");
 	chrome.runtime.openOptionsPage();
 });

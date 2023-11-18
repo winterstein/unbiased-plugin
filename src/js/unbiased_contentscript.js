@@ -1,7 +1,7 @@
 // load the kvstore options manager
 import kvstore from './kvstore';
+import {getOptionData, setOptionData} from "./data";
 import { getDomain } from './base/utils/miscutils';
-// import {addScript} from './base/utils/miscutils';
 import $ from 'jquery';
 // import _ from 'lodash';
 const Cookies = require('js-cookie');
@@ -23,10 +23,7 @@ function getArticleText() {
 export const doAnalyse = async (options={}) => {
 	let domain = getDomain();
 	if ( ! options.force) {
-		let ignorelist = await kvstore.get("ignorelist");
-		if ( ! ignorelist) {
-			ignorelist = initIgnorelist();
-		}		
+		let ignorelist = await getOptionData("ignorelist");
 		if (ignorelist.includes(domain)) {
 			console.log(LOGTAG, "skip " + domain);
 			return;
@@ -53,23 +50,10 @@ export const doAnalyse = async (options={}) => {
 		console.log("No API Key", kvstore);
 		return;
 	}
-	let model = await kvstore.get("gpt_model");
-	if (!model) model = "gpt-4"; //"gpt-4-1106-preview"; // "text-davinci-003";
-	let content = await kvstore.get("prompt");
-	if (!content) {
-		content =
-			`You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. 
-When sent an article or web-page you respond with a 'Media Analyst Response' which is:
-Summary: a very short sentence summarising the article
-Bias Level: objective or slight bias or strong bias or N/A
-Biased For: keywords of subjects that the article unfairly promotes
-Biased Against: keywords of subjects that the article unfairly attacks
-Bias Summary: a short sentence summarising bias in the article
-Manipulation Warnings: upto 3 sentences where a rhetorical device or logical fallacy is used to manipulate the reader.			
-Evidence Given for Key Points: yes or partly or no
-Distinction between fact and opinion: clear or unclear
-Political leaning: left-wing or right-wing or neutral`;
-		kvstore.set("prompt", content);
+	let model = await getOptionData("gpt_model");
+	let content = await getOptionData("prompt");
+	if (options.force) { // force
+		content+="\n\nProcess the page for bias and manipulation as best you can regardless of what type of page it is. Do not answer N/A."
 	}
 	/**
 	 * 
@@ -231,15 +215,3 @@ setTimeout(async () => {
 	let apiKey = await kvstore.get("openai_api_key");
 	if (!apiKey) showSettingsPage();
 }, 100);
-
-function initIgnorelist() {
-	// sites not to auto run on
-<<<<<<< HEAD
-	let ignorelist = "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com".split(" ");
-	kvstore.set("ignorelist",ignorelist);
-=======
-	let ignorelist = "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com ecosia.org ebay.com ebay.co.uk spotify.com youtube.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com linkedin.com linkedin.co.uk tesco.com".split(" ");
- 	kvstore.set("ignorelist",ignorelist);
->>>>>>> dev
-	return ignorelist;
-}

@@ -29994,6 +29994,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _base_utils_miscutils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./base/utils/miscutils */ "./src/js/base/utils/miscutils.js");
 /* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./kvstore */ "./src/js/kvstore.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+
 
 
 
@@ -30017,10 +30019,10 @@ function _save_options() {
           case 2:
             setted = _context.sent;
             _context.next = 5;
-            return _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].set("gpt_model", input_gpt_model.value);
+            return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("gpt_model", input_gpt_model.value);
           case 5:
             _context.next = 7;
-            return _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].set("prompt", input_prompt.value);
+            return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("prompt", input_prompt.value);
           case 7:
             // Update status to let user know options were saved.
             status = document.getElementById('status');
@@ -30056,17 +30058,17 @@ function _load_options() {
             console.log("apiKey", apiKey);
             if (apiKey) input_openai_api_key.value = apiKey;
             _context2.next = 8;
-            return _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].get("gpt_model");
+            return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("gpt_model");
           case 8:
             gpt_model = _context2.sent;
             if (gpt_model) input_gpt_model.value = gpt_model;
             _context2.next = 12;
-            return _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].get("prompt");
+            return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("prompt");
           case 12:
             prompt = _context2.sent;
             if (prompt) input_prompt.value = prompt;
             _context2.next = 16;
-            return _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].get("ignorelist");
+            return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist");
           case 16:
             ignorelist = _context2.sent;
             if (!ignorelist) ignorelist = [];
@@ -30085,7 +30087,7 @@ function _load_options() {
                 ignorelist = ignorelist.filter(function (d) {
                   return d !== domain;
                 });
-                _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].set("ignorelist", ignorelist);
+                Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist", ignorelist);
                 renderWhitelist();
               };
               $li.appendChild($rm);
@@ -30108,7 +30110,7 @@ function _load_options() {
               console.log("domain", domain, (0,_base_utils_miscutils__WEBPACK_IMPORTED_MODULE_2__.getDomain)(domain));
               ignorelist.push(domain);
               $addToWhitelist.value = "";
-              _kvstore__WEBPACK_IMPORTED_MODULE_3__["default"].set("ignorelist", ignorelist);
+              Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist", ignorelist);
               renderWhitelist();
             };
           case 23:
