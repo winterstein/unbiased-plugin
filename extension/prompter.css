@@ -9,6 +9,8 @@
 }
 
 ._quality_closebutton {
+	font-size: large;
+	padding: 0.1rem;
 	position: absolute;
 	right:0.5rem;
 	top:0.5rem;

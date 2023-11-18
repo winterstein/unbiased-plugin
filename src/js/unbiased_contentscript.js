@@ -1,7 +1,7 @@
 // load the kvstore options manager
 import kvstore from './kvstore';
+import {getOptionData, setOptionData} from "./data";
 import { getDomain } from './base/utils/miscutils';
-// import {addScript} from './base/utils/miscutils';
 import $ from 'jquery';
 // import _ from 'lodash';
 const Cookies = require('js-cookie');
