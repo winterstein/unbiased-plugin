@@ -3,7 +3,7 @@
  
 	"name": "Quality - alpha",
 	"description": "Check for bias",
-	"version": "0.1.0",
+	"version": "0.1.1",
 
 	"icons": {
 		"64": "img/logo.64.png"
@@ -16,9 +16,7 @@
 
 	"permissions": [
 	  "activeTab",
-	  "storage",
-	  "http://*/*",
-      "https://*/*"
+	  "storage"
 	],
 
 	"options_ui": {
@@ -30,7 +28,7 @@
 		{			
 			"matches": ["<all_urls>"],
 			"run_at": "document_start",
-			"exclude_matches": ["*://as.good-loop.com/*"],
+			"exclude_matches": [],
 			"js": ["build/js/unbiased_contentscript-bundle-debug.js"],
 			"css": [
                 "prompter.css"
