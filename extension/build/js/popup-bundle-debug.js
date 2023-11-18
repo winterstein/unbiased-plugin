@@ -11621,6 +11621,70 @@ if (!window.str) window.str = printer.str;
 
 /***/ }),
 
+/***/ "./src/js/data.js":
+/*!************************!*\
+  !*** ./src/js/data.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getOptionData: () => (/* binding */ getOptionData),
+/* harmony export */   setOptionData: () => (/* binding */ setOptionData)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./kvstore */ "./src/js/kvstore.js");
+
+
+
+function getOptionData(_x) {
+  return _getOptionData.apply(this, arguments);
+}
+function _getOptionData() {
+  _getOptionData = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee(key) {
+    var v;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].get(key);
+          case 2:
+            v = _context.sent;
+            if (!v) {
+              _context.next = 5;
+              break;
+            }
+            return _context.abrupt("return", v);
+          case 5:
+            return _context.abrupt("return", defaultOptions[key]);
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _getOptionData.apply(this, arguments);
+}
+function setOptionData(key, value) {
+  if (value === defaultOptions[key]) {
+    value = null; // allow defaults to be updated by fresh code
+  }
+
+  return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].set(key, value);
+}
+var defaultOptions = {
+  gpt_model: 'gpt-4',
+  prompt: "You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. \nWhen sent an article or web-page you respond with a 'Media Analyst Response' which is:\nSummary: a very short sentence summarising the article\nBias Level: objective or slight bias or strong bias or N/A\nBiased For: keywords of subjects that the article unfairly promotes\nBiased Against: keywords of subjects that the article unfairly attacks\nBias Summary: a short sentence summarising bias in the article\nManipulation Warnings: upto 3 sentences where a rhetorical device or logical fallacy is used to manipulate the reader.\t\t\t\nEvidence Given for Key Points: yes or partly or no\nDistinction between fact and opinion: clear or unclear\nPolitical leaning: left-wing or right-wing or neutral",
+  ignorelist: "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com ecosia.org ebay.com ebay.co.uk spotify.com youtube.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com linkedin.com linkedin.co.uk tesco.com".split(" ")
+};
+
+/***/ }),
+
 /***/ "./src/js/kvstore.js":
 /*!***************************!*\
   !*** ./src/js/kvstore.js ***!
@@ -31292,7 +31356,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var webextension_polyfill_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! webextension-polyfill-ts */ "./node_modules/webextension-polyfill-ts/lib/index.js");
 /* harmony import */ var _base_utils_miscutils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./base/utils/miscutils */ "./src/js/base/utils/miscutils.js");
 /* harmony import */ var _kvstore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./kvstore */ "./src/js/kvstore.js");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _data__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./data */ "./src/js/data.js");
 
 
 
@@ -31347,7 +31411,7 @@ function save_preference(e) {
               domain = (0,_base_utils_miscutils__WEBPACK_IMPORTED_MODULE_3__.getDomain)(temp.hostname);
               allowed = !document.getElementById('toggler').checked;
               _context2.next = 5;
-              return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist");
+              return (0,_data__WEBPACK_IMPORTED_MODULE_5__.getOptionData)("ignorelist");
             case 5:
               ignorelist = _context2.sent;
               if (!allowed) {
@@ -31357,7 +31421,7 @@ function save_preference(e) {
               } else {
                 ignorelist.push(domain);
               }
-              Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist", ignorelist);
+              (0,_data__WEBPACK_IMPORTED_MODULE_5__.setOptionData)("ignorelist", ignorelist);
             case 8:
             case "end":
               return _context2.stop();
@@ -31386,7 +31450,7 @@ function load_preference() {
               domain = (0,_base_utils_miscutils__WEBPACK_IMPORTED_MODULE_3__.getDomain)(temp.hostname);
               console.log(domain);
               _context3.next = 5;
-              return Object(function webpackMissingModule() { var e = new Error("Cannot find module './data'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())("ignorelist");
+              return (0,_data__WEBPACK_IMPORTED_MODULE_5__.getOptionData)("ignorelist");
             case 5:
               ignorelist = _context3.sent;
               if (ignorelist.filter(function (d) {
