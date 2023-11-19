@@ -11630,7 +11630,9 @@ if (!window.str) window.str = printer.str;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getExtract4: () => (/* binding */ getExtract4),
 /* harmony export */   getOptionData: () => (/* binding */ getOptionData),
+/* harmony export */   setExtract4: () => (/* binding */ setExtract4),
 /* harmony export */   setOptionData: () => (/* binding */ setOptionData)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
@@ -11682,6 +11684,49 @@ var defaultOptions = {
   prompt: "You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. \nWhen sent an article or web-page you respond with a 'Media Analyst Response' which is:\nSummary: a very short sentence summarising the article\nBias Level: objective or slight bias or strong bias or N/A\nBiased For: keywords of subjects that the article unfairly promotes\nBiased Against: keywords of subjects that the article unfairly attacks\nBias Summary: a short sentence summarising bias in the article\nManipulation Warnings: upto 3 sentences where a rhetorical device or logical fallacy is used to manipulate the reader.\t\t\t\nEvidence Given for Key Points: yes or partly or no\nDistinction between fact and opinion: clear or unclear\nPolitical leaning: left-wing or right-wing or neutral",
   ignorelist: "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com ecosia.org ebay.com ebay.co.uk spotify.com youtube.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com linkedin.com linkedin.co.uk tesco.com".split(" ")
 };
+
+/** locator for the text content - separate from defaultOptions to avoid code to handle nesting */
+var extract4domain = {
+  "nextdoor.co.uk": "p.content-body"
+};
+function getExtract4(_x2) {
+  return _getExtract.apply(this, arguments);
+}
+function _getExtract() {
+  _getExtract = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(domain) {
+    var v;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].get("extract4" + domain);
+          case 2:
+            v = _context2.sent;
+            if (!v) {
+              _context2.next = 5;
+              break;
+            }
+            return _context2.abrupt("return", v);
+          case 5:
+            return _context2.abrupt("return", extract4domain[domain]);
+          case 6:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return _getExtract.apply(this, arguments);
+}
+function setExtract4(domain, value) {
+  if (value === extract4domain[domain]) {
+    value = null; // allow defaults to be updated by fresh code
+  }
+
+  var key = "extract4" + domain;
+  return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].set(key, value);
+}
 
 /***/ }),
 
@@ -41119,13 +41164,49 @@ __webpack_require__.r(__webpack_exports__);
 var Cookies = __webpack_require__(/*! js-cookie */ "./node_modules/js-cookie/dist/js.cookie.js");
 var LOGTAG = "UQ-extension";
 console.log(LOGTAG, "Hello from Unbiased Quality :)", window, document);
-function getArticleText() {
-  var _window$document$body;
-  // TODO support custom text finding for special sites (e.g. Facebook)
-  // TODO support multiple posts (e.g. reddit)
-  var articleText = jquery__WEBPACK_IMPORTED_MODULE_5___default()("article").text() || window.document.textContent || ((_window$document$body = window.document.body) == null ? void 0 : _window$document$body.innerText) || jquery__WEBPACK_IMPORTED_MODULE_5___default()(window.document).text();
-  console.log(LOGTAG, "articleText", articleText, window.document.textContent);
-  return articleText;
+function getArticleText(_x) {
+  return _getArticleText.apply(this, arguments);
+}
+function _getArticleText() {
+  _getArticleText = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee5(domain) {
+    var _window$document$body;
+    var locator, $fnd, text, articleText;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.next = 2;
+            return (0,_data__WEBPACK_IMPORTED_MODULE_3__.getExtract4)(domain);
+          case 2:
+            locator = _context5.sent;
+            console.log(LOGTAG, "getArticleText...", domain, locator);
+            if (!locator) {
+              _context5.next = 11;
+              break;
+            }
+            $fnd = window.document.querySelector(locator); // ??querySelectorAll
+            console.log(LOGTAG, "getArticleText - located", domain, locator, window.document, "$fnd", $fnd);
+            text = $fnd == null ? void 0 : $fnd.textContent;
+            if (!text) {
+              _context5.next = 10;
+              break;
+            }
+            return _context5.abrupt("return", text);
+          case 10:
+            console.warn(LOGTAG, "locator failed? " + locator, $fnd);
+          case 11:
+            // TODO support multiple posts (e.g. reddit)
+            articleText = jquery__WEBPACK_IMPORTED_MODULE_5___default()("article").text() || window.document.textContent || ((_window$document$body = window.document.body) == null ? void 0 : _window$document$body.innerText) || jquery__WEBPACK_IMPORTED_MODULE_5___default()(window.document).text();
+            console.log(LOGTAG, "articleText", articleText, window.document.textContent);
+            return _context5.abrupt("return", articleText);
+          case 14:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+  return _getArticleText.apply(this, arguments);
 }
 var doAnalyse = /*#__PURE__*/function () {
   var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee3(options) {
@@ -41164,32 +41245,35 @@ var doAnalyse = /*#__PURE__*/function () {
             // 1. Get page text
             console.log(LOGTAG, window, window.document);
             // BBC
-            articleText = getArticleText();
+            _context3.next = 16;
+            return getArticleText(domain);
+          case 16:
+            articleText = _context3.sent;
             if (articleText) {
-              _context3.next = 18;
+              _context3.next = 20;
               break;
             }
             console.log("No articleText?");
             return _context3.abrupt("return");
-          case 18:
-            _context3.next = 20;
-            return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].get("openai_api_key");
           case 20:
+            _context3.next = 22;
+            return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].get("openai_api_key");
+          case 22:
             apiKey = _context3.sent;
             if (apiKey) {
-              _context3.next = 24;
+              _context3.next = 26;
               break;
             }
             console.log("No API Key", _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"]);
             return _context3.abrupt("return");
-          case 24:
-            _context3.next = 26;
-            return (0,_data__WEBPACK_IMPORTED_MODULE_3__.getOptionData)("gpt_model");
           case 26:
+            _context3.next = 28;
+            return (0,_data__WEBPACK_IMPORTED_MODULE_3__.getOptionData)("gpt_model");
+          case 28:
             model = _context3.sent;
-            _context3.next = 29;
+            _context3.next = 31;
             return (0,_data__WEBPACK_IMPORTED_MODULE_3__.getOptionData)("prompt");
-          case 29:
+          case 31:
             content = _context3.sent;
             if (options.force) {
               // force
@@ -41249,7 +41333,7 @@ var doAnalyse = /*#__PURE__*/function () {
                   }
                 }, _callee);
               }));
-              return function doChat(_x2) {
+              return function doChat(_x3) {
                 return _ref2.apply(this, arguments);
               };
             }();
@@ -41308,18 +41392,18 @@ var doAnalyse = /*#__PURE__*/function () {
                   }
                 }, _callee2);
               }));
-              return function (_x3) {
+              return function (_x4) {
                 return _ref3.apply(this, arguments);
               };
             }());
-          case 34:
+          case 36:
           case "end":
             return _context3.stop();
         }
       }
     }, _callee3);
   }));
-  return function doAnalyse(_x) {
+  return function doAnalyse(_x2) {
     return _ref.apply(this, arguments);
   };
 }(); // ./doAnalyse

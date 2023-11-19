@@ -27,5 +27,25 @@ Manipulation Warnings: upto 3 sentences where a rhetorical device or logical fal
 Evidence Given for Key Points: yes or partly or no
 Distinction between fact and opinion: clear or unclear
 Political leaning: left-wing or right-wing or neutral`,
-	ignorelist: "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com ecosia.org ebay.com ebay.co.uk spotify.com youtube.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com linkedin.com linkedin.co.uk tesco.com".split(" ")
+	ignorelist: "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com ecosia.org ebay.com ebay.co.uk spotify.com youtube.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com linkedin.com linkedin.co.uk tesco.com".split(" "),
 };
+
+/** locator for the text content - separate from defaultOptions to avoid code to handle nesting */
+const extract4domain = {
+	"nextdoor.co.uk": "p.content-body"
+};
+
+
+export async function getExtract4(domain) {
+	let v = await kvstore.get("extract4"+domain);
+	if (v) return v;
+	return extract4domain[domain];
+}
+
+export function setExtract4(domain, value) {
+	if (value === extract4domain[domain]) {
+		value = null; // allow defaults to be updated by fresh code
+	}
+	let key = "extract4"+domain;
+	return kvstore.set(key, value);
+}

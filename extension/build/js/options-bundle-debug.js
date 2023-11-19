@@ -11630,7 +11630,9 @@ if (!window.str) window.str = printer.str;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getExtract4: () => (/* binding */ getExtract4),
 /* harmony export */   getOptionData: () => (/* binding */ getOptionData),
+/* harmony export */   setExtract4: () => (/* binding */ setExtract4),
 /* harmony export */   setOptionData: () => (/* binding */ setOptionData)
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
@@ -11682,6 +11684,49 @@ var defaultOptions = {
   prompt: "You are a media analyst evaluating articles and web-pages for bias, manipulation, and logical fallacies. \nWhen sent an article or web-page you respond with a 'Media Analyst Response' which is:\nSummary: a very short sentence summarising the article\nBias Level: objective or slight bias or strong bias or N/A\nBiased For: keywords of subjects that the article unfairly promotes\nBiased Against: keywords of subjects that the article unfairly attacks\nBias Summary: a short sentence summarising bias in the article\nManipulation Warnings: upto 3 sentences where a rhetorical device or logical fallacy is used to manipulate the reader.\t\t\t\nEvidence Given for Key Points: yes or partly or no\nDistinction between fact and opinion: clear or unclear\nPolitical leaning: left-wing or right-wing or neutral",
   ignorelist: "google.com outlook.com yahoo.com yahoo.co.uk bing.com duckduckgo.com ecosia.org ebay.com ebay.co.uk spotify.com youtube.com amazon.com amazon.co.uk openai.com facebook.com twitter.com x.com linkedin.com linkedin.co.uk tesco.com".split(" ")
 };
+
+/** locator for the text content - separate from defaultOptions to avoid code to handle nesting */
+var extract4domain = {
+  "nextdoor.co.uk": "p.content-body"
+};
+function getExtract4(_x2) {
+  return _getExtract.apply(this, arguments);
+}
+function _getExtract() {
+  _getExtract = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().mark(function _callee2(domain) {
+    var v;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default().wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].get("extract4" + domain);
+          case 2:
+            v = _context2.sent;
+            if (!v) {
+              _context2.next = 5;
+              break;
+            }
+            return _context2.abrupt("return", v);
+          case 5:
+            return _context2.abrupt("return", extract4domain[domain]);
+          case 6:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return _getExtract.apply(this, arguments);
+}
+function setExtract4(domain, value) {
+  if (value === extract4domain[domain]) {
+    value = null; // allow defaults to be updated by fresh code
+  }
+
+  var key = "extract4" + domain;
+  return _kvstore__WEBPACK_IMPORTED_MODULE_2__["default"].set(key, value);
+}
 
 /***/ }),
 

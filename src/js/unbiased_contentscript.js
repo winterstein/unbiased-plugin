@@ -1,6 +1,6 @@
 // load the kvstore options manager
 import kvstore from './kvstore';
-import {getOptionData, setOptionData} from "./data";
+import {getExtract4, getOptionData, setOptionData} from "./data";
 import { getDomain } from './base/utils/miscutils';
 import $ from 'jquery';
 // import _ from 'lodash';
@@ -9,8 +9,17 @@ const Cookies = require('js-cookie');
 const LOGTAG = "UQ-extension";
 console.log(LOGTAG, "Hello from Unbiased Quality :)", window, document);
 
-function getArticleText() {
-	// TODO support custom text finding for special sites (e.g. Facebook)
+async function getArticleText(domain) {
+	// support custom text finding for special sites (e.g. Facebook)
+	let locator = await getExtract4(domain);
+	console.log(LOGTAG, "getArticleText...", domain, locator);
+	if (locator) {
+		let $fnd = window.document.querySelector(locator); // ??querySelectorAll
+		console.log(LOGTAG, "getArticleText - located", domain, locator, window.document, "$fnd", $fnd);
+		let text = $fnd?.textContent;
+		if (text) return text;
+		console.warn(LOGTAG, "locator failed? "+locator, $fnd);
+	}
 	// TODO support multiple posts (e.g. reddit)
 	let articleText = $("article").text() 
 		|| window.document.textContent
@@ -37,7 +46,7 @@ export const doAnalyse = async (options={}) => {
 	// 1. Get page text
 	console.log(LOGTAG, window, window.document);
 	// BBC
-	let articleText = getArticleText();
+	let articleText = await getArticleText(domain);
 
 	if (!articleText) {
 		console.log("No articleText?");
